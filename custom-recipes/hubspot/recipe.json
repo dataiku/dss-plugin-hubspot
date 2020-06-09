@@ -1,0 +1,86 @@
+{
+    "meta": {
+        "label": "HubSpot",
+        "description": "Recipe to get HubSpot data",
+        "icon": "icon-cloud-download",
+        "author" : "Dataiku (Kasim Patel)"
+
+    },
+    "kind": "PYTHON",
+    "outputRoles": [
+        {
+           "name": "output",
+            "label": "Output Dataset",
+            "description": "",
+            "arity": "UNARY",
+            "acceptsDataset": true
+        }
+    ],
+    "params": [
+        {
+            "name": "hapikey",
+            "label": "HubSpot API key",
+            "type": "STRING",
+            "mandatory": true
+        },
+        {
+            "name": "object_name",
+            "label": "Object to download",
+            "type": "SELECT",
+            "mandatory": true,
+            "selectChoices": [
+                {
+                    "value": "contacts",
+                    "label": "Contacts"
+                },
+                {
+                    "value": "companies",
+                    "label": "Companies"
+                }
+            ]
+        },
+        {
+            "name": "format",
+            "label": "Format of the dataset",
+            "type": "SELECT",
+            "mandatory": true,
+            "selectChoices": [
+                {
+                    "value": "JSON",
+                    "label": "JSON"
+                },
+                {
+                    "value": "Readable with columns",
+                    "label": "Readable with columns (Not recommended to work with property type 'All')"
+                }
+            ]
+        },
+                 {
+            "name": "properties_type",
+            "label": "Property Type",
+            "mandatory": true,
+            "type": "SELECT",
+            "selectChoices": [
+                {
+                    "value": "Standard",
+                    "label": "Standard"
+                },
+                {
+                    "value": "All",
+                    "label": "All"
+                },
+                {
+                    "value": "Custom",
+                    "label": "Custom"
+                }
+            ]
+        },
+         {
+            "name": "property_names",
+            "label": "Properties to retrieve",
+            "type": "STRINGS",
+             "visibilityCondition": "model.properties_type == 'Custom'"
+        }
+    ],
+    "resourceKeys": []
+}
