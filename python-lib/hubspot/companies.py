@@ -1,9 +1,5 @@
-import dataiku
-import pandas as pd, numpy as np
-from dataiku import pandasutils as pdu
-import json, time, requests, logging
+import json, time, requests
 import urllib
-from pandas.io.json import json_normalize
 
 def get_company_properties(apikey):
     get_all_properties_url = "https://api.hubapi.com//properties/v1/companies/properties?"

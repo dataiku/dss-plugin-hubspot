@@ -1,15 +1,6 @@
-from dataiku import pandasutils as pdu
-import pandas as pd, numpy as np
-import re
 import dataiku
-import dataikuapi
-from dataiku import api_client as client
-from dataiku.core.sql import SQLExecutor2
-import json, time, requests
 import logging
 from dataiku.customrecipe import *
-import urllib
-from pandas.io.json import json_normalize
 from hubspot import get_contacts, write_data, get_companies
 
 logger = logging.getLogger(__name__)
