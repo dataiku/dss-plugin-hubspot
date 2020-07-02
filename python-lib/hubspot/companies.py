@@ -1,22 +1,22 @@
-import json, time, requests
+import dataiku
+import pandas as pd, numpy as np
+from dataiku import pandasutils as pdu
+import json, time, requests, logging
 import urllib
+from pandas.io.json import json_normalize
 
 def get_company_properties(apikey):
-    get_all_properties_url = "https://api.hubapi.com//properties/v1/companies/properties?"
-    parameter_dict = {'hapikey': apikey}
-    headers = {}
-    parameters = urllib.urlencode(parameter_dict)
-    get_url = get_all_properties_url + parameters
-    r = requests.get(url= get_url, headers = headers)
-    response_dict = json.loads(r.text)
+    try:
+        r = requests.get("https://api.hubapi.com//properties/v1/companies/properties?", params = {'hapikey': apikey})
+    except:
+        if (r.status_code == 200 and method == 'get'):
+            raise Exception('API error when calling {}, error code {}. Returned response : {}'.format(r.url, r.status_code, r.json()))
+    response_dict = r.json()
     list_companies_properties = [x[u'name'] for x in response_dict]
     return list_companies_properties
 
 def get_companies(apikey, properties_type, list_input):
     limit = 250 
-    company_list = []
-    headers = {}
-    get_all_companies_url = "https://api.hubapi.com/companies/v2/companies/paged?"
     if properties_type == 'Standard':
         parameter_dict = {'hapikey': apikey, 'limit': limit}
     elif properties_type == 'All':
@@ -25,20 +25,19 @@ def get_companies(apikey, properties_type, list_input):
     elif properties_type == 'Custom':
         company_properties = list_input
         parameter_dict = {'hapikey': apikey, 'limit': limit, 'properties': list_input}
-        
-    # Paginate your request using offset
     has_more = True
     counter = 0
     while has_more:
-        parameters = urllib.urlencode(parameter_dict, True)
-        get_url = get_all_companies_url + parameters
-        r = requests.get(url= get_url, headers = headers)
+        try:
+            r = requests.get("https://api.hubapi.com/companies/v2/companies/paged?", params = parameter_dict)
+        except:
+            if (r.status_code == 200 and method == 'get'):
+                raise Exception('API error when calling {}, error code {}. Returned response : {}'.format(r.url, r.status_code, r.json()))
         counter += 1
-        response_dict = json.loads(r.text)
+        response_dict = r.json()
         has_more = response_dict['has-more']
-        company_list.extend(response_dict['companies'])
+        yield response_dict['companies']
         parameter_dict['offset']= response_dict['offset']
-        if counter >= 90:
-            time.sleep(15)
+        if counter >= 95:
+            time.sleep(10)
             counter = 0
-    return company_list

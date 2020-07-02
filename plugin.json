@@ -6,7 +6,7 @@
         "label": "HubSpot",
         "description": "Fetch data from HubSpot",
         "author": "Dataiku (Kasim Patel)",
-        "icon": "icon-cloud-download",
+        "icon": "icon-group",
         "tags": ["Connector", "API"],
         "url": "https://www.dataiku.com/product/plugins/hubspot/",
         "licenseInfo": "Apache Software License"

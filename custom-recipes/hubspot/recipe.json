@@ -2,7 +2,7 @@
     "meta": {
         "label": "HubSpot",
         "description": "Recipe to get HubSpot data",
-        "icon": "icon-cloud-download",
+        "icon": "icon-group",
         "author" : "Dataiku (Kasim Patel)"
 
     },
@@ -56,30 +56,31 @@
             ]
         },
                  {
-            "name": "properties_type",
-            "label": "Property Type",
+            "name": "properties_to_retrieve",
+            "label": "Property to retrieve",
             "mandatory": true,
             "type": "SELECT",
             "selectChoices": [
                 {
                     "value": "Standard",
-                    "label": "Standard"
+                    "label": "Default Properties"
                 },
                 {
                     "value": "All",
-                    "label": "All"
+                    "label": "All Properties"
                 },
                 {
                     "value": "Custom",
-                    "label": "Custom"
+                    "label": "Custom Properties"
                 }
             ]
         },
          {
-            "name": "property_names",
-            "label": "Properties to retrieve",
+            "name": "custom_properties_list",
+            "label": "Custom list of properties",
+            "description": "List here properties to retrieve from Hubspot by pressing enter key after each property name",
             "type": "STRINGS",
-             "visibilityCondition": "model.properties_type == 'Custom'"
+             "visibilityCondition": "model.properties_to_retrieve == 'Custom'"
         }
     ],
     "resourceKeys": []
