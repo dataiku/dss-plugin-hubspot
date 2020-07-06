@@ -4,6 +4,9 @@ from dataiku import pandasutils as pdu
 import json, time, requests
 import urllib
 from pandas.io.json import json_normalize
+from constants import Constants
+
+const = Constants()
 
 def get_contact_properties(apikey):
     try:
@@ -16,15 +19,14 @@ def get_contact_properties(apikey):
     return list_contacts_properties
 
 def get_contacts(apikey, properties_type, list_input):
-    limit = 100
     if properties_type == 'Standard':
-        parameter_dict = {'hapikey': apikey, 'count': limit, 'property': contact_properties}
+        parameter_dict = {'hapikey': apikey, 'count': const.CONTACTS_LIMIT, 'property': contact_properties}
     elif properties_type == 'All':
         contact_properties = get_contact_properties(apikey)
-        parameter_dict = {'hapikey': apikey, 'count': limit, 'property': contact_properties}
+        parameter_dict = {'hapikey': apikey, 'count': const.CONTACTS_LIMIT, 'property': contact_properties}
     elif properties_type == 'Custom':
         contact_properties = list_input
-        parameter_dict = {'hapikey': apikey, 'count': limit, 'property': contact_properties}   
+        parameter_dict = {'hapikey': apikey, 'count': const.CONTACTS_LIMIT, 'property': contact_properties}   
     has_more = True
     counter = 0
     while has_more:
