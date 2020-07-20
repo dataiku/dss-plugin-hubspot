@@ -1,9 +1,7 @@
 import dataiku
 import pandas as pd, numpy as np
 from dataiku import pandasutils as pdu
-import requests
 import json
-import urllib
 import logging
 from pandas.io.json import json_normalize
 

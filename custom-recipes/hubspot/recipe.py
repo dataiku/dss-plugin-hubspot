@@ -10,7 +10,7 @@ import logging
 from dataiku.customrecipe import *
 import urllib
 from pandas.io.json import json_normalize
-from hubspot import get_contacts, write_data_json, write_data_columns, get_companies
+from hubspot import write_data_json, write_data_columns, get_values
 
 logger = logging.getLogger(__name__)
 
@@ -28,26 +28,15 @@ counter = 0
 if format_output == 'JSON':
     writer = output.get_writer()
     logger.info( "Writer opened")
-    if (object_name == 'contacts'):
-        for contact in get_contacts(api_key, properties_type, list_input):
-            write_data_json(writer, contact, output, format_output)
-            counter += 1
-    else:
-        for company in get_companies(api_key, properties_type, list_input):
-            write_data_json(writer, company, output, format_output)
-            counter += 1
+    for item in get_values(api_key, properties_type, list_input, object_name):
+        write_data_json(writer, item, output, format_output)
+        counter += 1
     writer.close()
     logger.info( "Writer closed")
     
-    
 elif format_output == 'Readable with columns':    
-    if(object_name == 'contacts'):
-        for contact in get_contacts(api_key, properties_type, list_input):
-            write_data_columns(contact, output, format_output)
-            counter += 1
-    else:
-        for company in get_companies(api_key, properties_type, list_input):
-            write_data_columns(company, output, format_output)
-            counter += 1
+    for item in get_values(api_key, properties_type, list_input, object_name):
+        write_data_columns(item, output, format_output)
+        counter += 1
 
 logger.info(str(counter) + " " + object_name + " downloaded")
