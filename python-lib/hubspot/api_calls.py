@@ -2,7 +2,7 @@ import dataiku
 import pandas as pd, numpy as np
 from dataiku import pandasutils as pdu
 import json, time, requests
-from constants import Constants
+from hubspot.constants import Constants
 
 def get_properties(apikey, object_name):
     url = "https://api.hubapi.com/properties/v1/" + object_name + "/properties?"
