@@ -7,7 +7,7 @@ from dataiku import api_client as client
 from dataiku.core.sql import SQLExecutor2
 import json, time, requests
 import logging
-from dataiku.customrecipe import *
+from dataiku.customrecipe import get_output_names_for_role, get_recipe_config
 import urllib
 from pandas.io.json import json_normalize
 from hubspot import write_data_json, write_data_columns, get_values
