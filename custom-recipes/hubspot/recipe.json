@@ -20,7 +20,7 @@
         {
             "name": "hapikey",
             "label": "HubSpot API key",
-            "type": "STRING",
+            "type": "PASSWORD",
             "mandatory": true
         },
         {
