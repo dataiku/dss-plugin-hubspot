@@ -48,6 +48,7 @@ def get_values(apikey, properties_type, list_input, object_name):
                 raise Exception('API error when calling {}, error code {}. Returned response : {}'.format(r.url, r.status_code, r.json()))
         counter += 1
         response_dict = r.json()
+        print("Response from hubspot: ", response_dict.dumps())
         has_more = response_dict['has-more']
         yield response_dict[object_name]
         if object_name == 'contacts':
