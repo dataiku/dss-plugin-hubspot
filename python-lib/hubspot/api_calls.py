@@ -13,7 +13,7 @@ def get_properties(apikey, object_name):
         logging.exception("API exception when calling %s ".format(url), e)
         raise Exception("API exception when calling %s ".format(url))
 
-    if (r.status_code != 200):
+    if r.status_code != 200:
         logging.error("API error when calling {}, error code {}. Returned response : {}".format(r.url, r.status_code, r.json()))
         raise Exception('API error when calling {}, error code {}. Returned response : {}'.format(r.url, r.status_code, r.json()))
     response_dict = r.json()
@@ -47,12 +47,12 @@ def get_values(apikey, properties_type, list_input, object_name):
     counter = 0
     while has_more:
         try:
-            r = requests.get(url_feat, params = parameter_dict)
+            r = requests.get(url_feat, params=parameter_dict)
         except Exception as e:
             logging.exception("API exception when calling %s ".format(url_feat), e)
             raise Exception("API exception when calling %s ".format(url_feat))
 
-        if (r.status_code != 200):
+        if r.status_code != 200:
             logging.error(
                 "API error when calling {}, error code {}. Returned response : {}".format(r.url, r.status_code,
                                                                                           r.json()))
@@ -61,7 +61,6 @@ def get_values(apikey, properties_type, list_input, object_name):
                                                                                           r.json()))
         counter += 1
         response_dict = r.json()
-        print("Response from hubspot: ", response_dict)
         has_more = response_dict['has-more']
         yield response_dict[object_name]
         if object_name == 'contacts':
