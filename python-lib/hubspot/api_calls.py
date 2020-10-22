@@ -9,7 +9,7 @@ def get_properties(apikey, object_name):
     try:
         r = requests.get(url, params = {'hapikey': apikey})
     except:
-        if (r.status_code != 200 and method == 'get'):
+        if (r.status_code != 200):
             raise Exception('API error when calling {}, error code {}. Returned response : {}'.format(r.url, r.status_code, r.json()))
     response_dict = r.json()
     list_properties = [x[u'name'] for x in response_dict]
@@ -44,9 +44,9 @@ def get_values(apikey, properties_type, list_input, object_name):
         try:
             r = requests.get(url_feat, params = parameter_dict)
         except:
-            if (r.status_code != 200 and method == 'get'):
+            if (r.status_code != 200):
                 raise Exception('API error when calling {}, error code {}. Returned response : {}'.format(r.url, r.status_code, r.json()))
-        counter +=1
+        counter += 1
         response_dict = r.json()
         has_more = response_dict['has-more']
         yield response_dict[object_name]
