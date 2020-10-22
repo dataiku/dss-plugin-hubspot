@@ -3,14 +3,19 @@ import pandas as pd, numpy as np
 from dataiku import pandasutils as pdu
 import json, time, requests
 from hubspot.constants import Constants
+import logging
 
 def get_properties(apikey, object_name):
     url = "https://api.hubapi.com/properties/v1/" + object_name + "/properties?"
     try:
         r = requests.get(url, params = {'hapikey': apikey})
-    except:
-        if (r.status_code != 200):
-            raise Exception('API error when calling {}, error code {}. Returned response : {}'.format(r.url, r.status_code, r.json()))
+    except Exception as e:
+        logging.exception("API exception when calling %s ".format(url), e)
+        raise Exception("API exception when calling %s ".format(url))
+
+    if (r.status_code != 200):
+        logging.error("API error when calling {}, error code {}. Returned response : {}".format(r.url, r.status_code, r.json()))
+        raise Exception('API error when calling {}, error code {}. Returned response : {}'.format(r.url, r.status_code, r.json()))
     response_dict = r.json()
     list_properties = [x[u'name'] for x in response_dict]
     return list_properties
@@ -43,9 +48,17 @@ def get_values(apikey, properties_type, list_input, object_name):
     while has_more:
         try:
             r = requests.get(url_feat, params = parameter_dict)
-        except:
-            if (r.status_code != 200):
-                raise Exception('API error when calling {}, error code {}. Returned response : {}'.format(r.url, r.status_code, r.json()))
+        except Exception as e:
+            logging.exception("API exception when calling %s ".format(url_feat), e)
+            raise Exception("API exception when calling %s ".format(url_feat))
+
+        if (r.status_code != 200):
+            logging.error(
+                "API error when calling {}, error code {}. Returned response : {}".format(r.url, r.status_code,
+                                                                                          r.json()))
+            raise Exception(
+                'API error when calling {}, error code {}. Returned response : {}'.format(r.url, r.status_code,
+                                                                                          r.json()))
         counter += 1
         response_dict = r.json()
         print("Response from hubspot: ", response_dict)
